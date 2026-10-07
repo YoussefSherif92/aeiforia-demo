@@ -1,0 +1,22 @@
+DEMONSTRATION PROCEDURE — fictional, not an Aeiforia policy or legal guidance.
+
+SECTION 1: Partial payments
+When the received payment is lower than the invoice total, keep the invoice
+open for the remaining balance and flag it for human review. Check whether
+the difference is an agreed discount, a bank fee, a disputed charge, or a
+partial payment. These are possible explanations, not confirmed causes.
+Prepare a clarification request. Do not automatically write off the balance.
+
+SECTION 2: Overpayments
+When payments exceed the invoice total, flag the excess for human review.
+Check for duplicate payments or payments intended for another invoice.
+Do not automatically refund money or allocate it to another invoice.
+
+SECTION 3: Exact payments
+When the invoice reference matches and the received amount equals the
+invoice total, mark the invoice as paid. Record the matching action.
+
+SECTION 4: Review history
+Record imported transaction identifiers, amounts, matching results, and
+review decisions. A generated explanation is advice for a reviewer;
+it must not independently change invoice amounts or approve refunds.
