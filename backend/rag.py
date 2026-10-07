@@ -6,9 +6,16 @@ from google import genai
 from google.genai import types
 
 
-QDRANT_URL = os.environ["QDRANT_URL"]
+QDRANT_URL = os.environ["QDRANT_URL"].rstrip("/")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", "")
 COLLECTION = "payment_procedures_v1"
 DIMENSIONS = 768
+
+QDRANT_HEADERS = (
+    {"api-key": QDRANT_API_KEY}
+    if QDRANT_API_KEY
+    else {}
+)
 
 
 def client():
@@ -41,19 +48,22 @@ def index_knowledge():
     ]
 
     response = requests.get(
-        f"{QDRANT_URL}/collections/{COLLECTION}", timeout=10
+        f"{QDRANT_URL}/collections/{COLLECTION}",
+        headers=QDRANT_HEADERS,
+        timeout=30,
     )
 
     if response.status_code == 404:
         response = requests.put(
             f"{QDRANT_URL}/collections/{COLLECTION}",
+            headers=QDRANT_HEADERS,
             json={
                 "vectors": {
                     "size": DIMENSIONS,
                     "distance": "Cosine",
                 }
             },
-            timeout=10,
+            timeout=30,
         )
 
     response.raise_for_status()
@@ -71,6 +81,7 @@ def index_knowledge():
 
     response = requests.put(
         f"{QDRANT_URL}/collections/{COLLECTION}/points",
+        headers=QDRANT_HEADERS,
         params={"wait": "true"},
         json={"points": points},
         timeout=30,
@@ -92,12 +103,13 @@ def explain_invoice(invoice):
 
     response = requests.post(
         f"{QDRANT_URL}/collections/{COLLECTION}/points/search",
+        headers=QDRANT_HEADERS,
         json={
             "vector": embed(topic),
             "limit": 2,
             "with_payload": True,
         },
-        timeout=15,
+        timeout=30,
     )
     response.raise_for_status()
 
